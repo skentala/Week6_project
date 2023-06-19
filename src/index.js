@@ -59,34 +59,53 @@ const jsonQuery = {
 
 
 
-async function showData () {
-  const url = "https://statfin.stat.fi/PxWeb/api/v1/en/StatFin/synt/statfin_synt_pxt_12dy.px";
-  const res = await fetch(url, {
+async function showData (area) {
+    const url1 = "https://statfin.stat.fi/PxWeb/api/v1/en/StatFin/synt/statfin_synt_pxt_12dy.px";
+    const res2 = await fetch(url1);
+    const data2 = await res2.json();
+    let i = 0;
+    let areaCode = "";
+    data2.variables[1].valueTexts.forEach((mun) => {
+        if (mun.toUpperCase() == area.toUpperCase()) {
+            areaCode = data2.variables[1].values[i];
+            return;
+        }
+        i++;
+    });
+    if (!areaCode) return;
+    jsonQuery.query[1].selection.values[0] = areaCode;
+    const res1 = await fetch(url1, {
         method: "POST",
         headers: {"content-type": "application/json"},
         body: JSON.stringify(jsonQuery)
-  });
-  if (!res.ok) return;
-  const data = await res.json();
+    });
+    if (!res1.ok) return;
+    const data1 = await res1.json();
 
-  const chartData = {
-      labels: Object.values(data.dimension.Vuosi.category.label),
-      datasets: [
-        {
-          name: "Population",
-          values: data.value
-        }
-      ]
-  }
+
+    const chartData = {
+        labels: Object.values(data1.dimension.Vuosi.category.label),
+        datasets: [
+            {
+                name: "Population",
+                values: data1.value
+            }
+        ]
+    }
 //  console.log(chartData);
 
-  const chart = new Chart("#chart", {
-        title: "",
+    const chart = new Chart("#chart", {
+        title: `Population in ${area}`,
         data: chartData,
         type: "line",
         height: 450,
         colors: ["#eb5146"]
-  });
+    });
 }
 
-showData();
+const buttonSubmit = document.getElementById("submit-data");
+buttonSubmit.addEventListener("click", () => {
+    event.preventDefault();
+    const inputArea = document.getElementById("input-area").value;
+    showData(inputArea);    
+});

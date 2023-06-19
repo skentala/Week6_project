@@ -3440,51 +3440,75 @@ var jsonQuery = {
     "format": "json-stat2"
   }
 };
-function showData() {
+function showData(_x) {
   return _showData.apply(this, arguments);
 }
 function _showData() {
-  _showData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var url, res, data, chartData, chart;
+  _showData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(area) {
+    var url1, res2, data2, i, areaCode, res1, data1, chartData, chart;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          url = "https://statfin.stat.fi/PxWeb/api/v1/en/StatFin/synt/statfin_synt_pxt_12dy.px";
+          url1 = "https://statfin.stat.fi/PxWeb/api/v1/en/StatFin/synt/statfin_synt_pxt_12dy.px";
           _context.next = 3;
-          return fetch(url, {
+          return fetch(url1);
+        case 3:
+          res2 = _context.sent;
+          _context.next = 6;
+          return res2.json();
+        case 6:
+          data2 = _context.sent;
+          i = 0;
+          areaCode = "";
+          data2.variables[1].valueTexts.forEach(function (mun) {
+            if (mun.toUpperCase() == area.toUpperCase()) {
+              areaCode = data2.variables[1].values[i];
+              return;
+            }
+            i++;
+          });
+          if (areaCode) {
+            _context.next = 12;
+            break;
+          }
+          return _context.abrupt("return");
+        case 12:
+          jsonQuery.query[1].selection.values[0] = areaCode;
+          _context.next = 15;
+          return fetch(url1, {
             method: "POST",
             headers: {
               "content-type": "application/json"
             },
             body: JSON.stringify(jsonQuery)
           });
-        case 3:
-          res = _context.sent;
-          if (res.ok) {
-            _context.next = 6;
+        case 15:
+          res1 = _context.sent;
+          if (res1.ok) {
+            _context.next = 18;
             break;
           }
           return _context.abrupt("return");
-        case 6:
-          _context.next = 8;
-          return res.json();
-        case 8:
-          data = _context.sent;
+        case 18:
+          _context.next = 20;
+          return res1.json();
+        case 20:
+          data1 = _context.sent;
           chartData = {
-            labels: Object.values(data.dimension.Vuosi.category.label),
+            labels: Object.values(data1.dimension.Vuosi.category.label),
             datasets: [{
               name: "Population",
-              values: data.value
+              values: data1.value
             }]
           }; //  console.log(chartData);
           chart = new _frappeChartsMin.Chart("#chart", {
-            title: "",
+            title: "Population in ".concat(area),
             data: chartData,
             type: "line",
             height: 450,
             colors: ["#eb5146"]
           });
-        case 11:
+        case 23:
         case "end":
           return _context.stop();
       }
@@ -3492,7 +3516,12 @@ function _showData() {
   }));
   return _showData.apply(this, arguments);
 }
-showData();
+var buttonSubmit = document.getElementById("submit-data");
+buttonSubmit.addEventListener("click", function () {
+  event.preventDefault();
+  var inputArea = document.getElementById("input-area").value;
+  showData(inputArea);
+});
 },{"./styles.css":"src/styles.css","frappe-charts/dist/frappe-charts.min.esm":"node_modules/frappe-charts/dist/frappe-charts.min.esm.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
