@@ -57,7 +57,8 @@ const jsonQuery = {
     }
 }
 
-
+let chartData = [];
+let chart = null;
 
 async function showData (area) {
     const url1 = "https://statfin.stat.fi/PxWeb/api/v1/en/StatFin/synt/statfin_synt_pxt_12dy.px";
@@ -83,7 +84,7 @@ async function showData (area) {
     const data1 = await res1.json();
 
 
-    const chartData = {
+    chartData = {
         labels: Object.values(data1.dimension.Vuosi.category.label),
         datasets: [
             {
@@ -94,7 +95,7 @@ async function showData (area) {
     }
 //  console.log(chartData);
 
-    const chart = new Chart("#chart", {
+    chart = new Chart("#chart", {
         title: `Population in ${area}`,
         data: chartData,
         type: "line",
@@ -104,8 +105,22 @@ async function showData (area) {
 }
 
 const buttonSubmit = document.getElementById("submit-data");
-buttonSubmit.addEventListener("click", () => {
+console.log(buttonSubmit);
+buttonSubmit.addEventListener("click", async () => {
     event.preventDefault();
     const inputArea = document.getElementById("input-area").value;
-    showData(inputArea);    
+    showData(inputArea);
+    console.log("Hello");
 });
+
+const buttonAdd = document.getElementById("add-data");
+console.log(buttonAdd);
+buttonAdd.addEventListener("click", () => {
+    console.log("Hello again");
+    if (!chart) return;
+    let newValue = 0;
+//    chartData.push({labels: "Next", datasets: [{name: "Estimate", value: newValue}]});
+    chart.addDataPoint("Next", [{name: "Estimate", value: newValue}]);
+});
+
+

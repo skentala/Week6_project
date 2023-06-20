@@ -3440,24 +3440,26 @@ var jsonQuery = {
     "format": "json-stat2"
   }
 };
+var chartData = [];
+var chart = null;
 function showData(_x) {
   return _showData.apply(this, arguments);
 }
 function _showData() {
-  _showData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(area) {
-    var url1, res2, data2, i, areaCode, res1, data1, chartData, chart;
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) switch (_context.prev = _context.next) {
+  _showData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(area) {
+    var url1, res2, data2, i, areaCode, res1, data1;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
         case 0:
           url1 = "https://statfin.stat.fi/PxWeb/api/v1/en/StatFin/synt/statfin_synt_pxt_12dy.px";
-          _context.next = 3;
+          _context2.next = 3;
           return fetch(url1);
         case 3:
-          res2 = _context.sent;
-          _context.next = 6;
+          res2 = _context2.sent;
+          _context2.next = 6;
           return res2.json();
         case 6:
-          data2 = _context.sent;
+          data2 = _context2.sent;
           i = 0;
           areaCode = "";
           data2.variables[1].valueTexts.forEach(function (mun) {
@@ -3468,13 +3470,13 @@ function _showData() {
             i++;
           });
           if (areaCode) {
-            _context.next = 12;
+            _context2.next = 12;
             break;
           }
-          return _context.abrupt("return");
+          return _context2.abrupt("return");
         case 12:
           jsonQuery.query[1].selection.values[0] = areaCode;
-          _context.next = 15;
+          _context2.next = 15;
           return fetch(url1, {
             method: "POST",
             headers: {
@@ -3483,24 +3485,26 @@ function _showData() {
             body: JSON.stringify(jsonQuery)
           });
         case 15:
-          res1 = _context.sent;
+          res1 = _context2.sent;
           if (res1.ok) {
-            _context.next = 18;
+            _context2.next = 18;
             break;
           }
-          return _context.abrupt("return");
+          return _context2.abrupt("return");
         case 18:
-          _context.next = 20;
+          _context2.next = 20;
           return res1.json();
         case 20:
-          data1 = _context.sent;
+          data1 = _context2.sent;
           chartData = {
             labels: Object.values(data1.dimension.Vuosi.category.label),
             datasets: [{
               name: "Population",
               values: data1.value
             }]
-          }; //  console.log(chartData);
+          };
+          //  console.log(chartData);
+
           chart = new _frappeChartsMin.Chart("#chart", {
             title: "Population in ".concat(area),
             data: chartData,
@@ -3510,17 +3514,40 @@ function _showData() {
           });
         case 23:
         case "end":
-          return _context.stop();
+          return _context2.stop();
       }
-    }, _callee);
+    }, _callee2);
   }));
   return _showData.apply(this, arguments);
 }
 var buttonSubmit = document.getElementById("submit-data");
-buttonSubmit.addEventListener("click", function () {
-  event.preventDefault();
-  var inputArea = document.getElementById("input-area").value;
-  showData(inputArea);
+console.log(buttonSubmit);
+buttonSubmit.addEventListener("click", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+  var inputArea;
+  return _regeneratorRuntime().wrap(function _callee$(_context) {
+    while (1) switch (_context.prev = _context.next) {
+      case 0:
+        event.preventDefault();
+        inputArea = document.getElementById("input-area").value;
+        showData(inputArea);
+        console.log("Hello");
+      case 4:
+      case "end":
+        return _context.stop();
+    }
+  }, _callee);
+})));
+var buttonAdd = document.getElementById("add-data");
+console.log(buttonAdd);
+buttonAdd.addEventListener("click", function () {
+  console.log("Hello again");
+  if (!chart) return;
+  var newValue = 0;
+  //    chartData.push({labels: "Next", datasets: [{name: "Estimate", value: newValue}]});
+  chart.addDataPoint("Next", [{
+    name: "Estimate",
+    value: newValue
+  }]);
 });
 },{"./styles.css":"src/styles.css","frappe-charts/dist/frappe-charts.min.esm":"node_modules/frappe-charts/dist/frappe-charts.min.esm.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
