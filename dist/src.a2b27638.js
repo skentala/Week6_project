@@ -3559,12 +3559,12 @@ buttonAdd.addEventListener("click", function () {
       previous = current;
     }
     console.log("Current " + current);
-    if (current) {
-      newValue = newValue / num;
-      newValue += current;
-    }
-    console.log(newValue);
   });
+  if (current) {
+    newValue = newValue / (num - 1);
+    newValue += current;
+  }
+  console.log(newValue);
   chart.addDataPoint("Next", [newValue]);
 });
 },{"./styles.css":"src/styles.css","frappe-charts/dist/frappe-charts.min.esm":"node_modules/frappe-charts/dist/frappe-charts.min.esm.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {

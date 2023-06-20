@@ -136,12 +136,12 @@ buttonAdd.addEventListener("click", () => {
             previous = current;
         }
         console.log("Current "+current);
-        if (current){
-            newValue = newValue / num;
-            newValue += current;
-        }
-        console.log(newValue);
     })
+    if (current){
+        newValue = newValue / (num-1);
+        newValue += current;
+    }
+    console.log(newValue);
     chart.addDataPoint("Next", [newValue]);
 });
 
