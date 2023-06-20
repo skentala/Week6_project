@@ -119,7 +119,6 @@ buttonAdd.addEventListener("click", () => {
     console.log("Hello again");
     if (!chart) return;
     let newValue = 0;
-//    chartData.push({labels: "Next", datasets: [{name: "Estimate", value: newValue}]});
     chart.addDataPoint("Next", [{name: "Estimate", value: newValue}]);
 });
 
