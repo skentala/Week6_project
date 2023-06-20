@@ -119,7 +119,30 @@ buttonAdd.addEventListener("click", () => {
     console.log("Hello again");
     if (!chart) return;
     let newValue = 0;
-    chart.addDataPoint("Next", [{name: "Estimate", value: newValue}]);
+    let num = 0;
+    console.log(chartData);
+    let previous = null;
+    let current = null;
+    chartData.datasets[0].values.forEach((point) =>{
+        console.log(point);
+        current = point;
+        num += 1;
+        if (!previous){
+            previous = current;
+        }
+        else {
+            newValue += current - previous;
+            console.log(newValue);
+            previous = current;
+        }
+        console.log("Current "+current);
+        if (current){
+            newValue = newValue / num;
+            newValue += current;
+        }
+        console.log(newValue);
+    })
+    chart.addDataPoint("Next", [newValue]);
 });
 
 

@@ -3543,10 +3543,29 @@ buttonAdd.addEventListener("click", function () {
   console.log("Hello again");
   if (!chart) return;
   var newValue = 0;
-  chart.addDataPoint("Next", [{
-    name: "Estimate",
-    value: newValue
-  }]);
+  var num = 0;
+  console.log(chartData);
+  var previous = null;
+  var current = null;
+  chartData.datasets[0].values.forEach(function (point) {
+    console.log(point);
+    current = point;
+    num += 1;
+    if (!previous) {
+      previous = current;
+    } else {
+      newValue += current - previous;
+      console.log(newValue);
+      previous = current;
+    }
+    console.log("Current " + current);
+    if (current) {
+      newValue = newValue / num;
+      newValue += current;
+    }
+    console.log(newValue);
+  });
+  chart.addDataPoint("Next", [newValue]);
 });
 },{"./styles.css":"src/styles.css","frappe-charts/dist/frappe-charts.min.esm":"node_modules/frappe-charts/dist/frappe-charts.min.esm.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
